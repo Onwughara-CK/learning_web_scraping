@@ -17,8 +17,5 @@ def get_title(url):
 def title_of_website(url):
     title = get_title(url)
     if title == None:
-        return 'Site could not be retrieved'
-    else:
-        print(title)
-    return
-    
+        return 'Site title could not be retrieved'
+    return title.get_text()
