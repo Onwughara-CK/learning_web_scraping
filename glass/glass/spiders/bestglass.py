@@ -11,12 +11,13 @@ class BestglassSpider(scrapy.Spider):
         glasses = response.css('div.prlist .m-p-product')
         for glass in glasses:
             url = glass.css('.pimg a::attr(href)').get()
+            if not url:  # prevent scraping ads
+                continue
             img_url = glass.css(
                 '.pimg a img.default-image-front::attr(src)').get()
             name = glass.css('div.row p.pname a::text').get()
             price = glass.css('div.row div.pprice span.pull-right::text').get()
-            if not url:  # prevent scraping ads
-                continue
+
             if not bool((price).strip()):  # if special price former price will be \n
                 price = glass.css('div.row div.pprice span.sprice::text').get()
 
