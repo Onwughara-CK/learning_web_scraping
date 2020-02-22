@@ -11,14 +11,19 @@ class BestMoviesSpider(CrawlSpider):
         'https://www.imdb.com/search/title/?genres=drama&groups=top_250&sort=user_rating,desc']
 
     rules = (
+
         Rule(LinkExtractor(
             restrict_xpaths='//h3[@class="lister-item-header"]/a'), callback='parse_item', follow=True),
         Rule(LinkExtractor(
-            restrict_xpaths='(//a[@class="lister-page-next next-page"])[2]'))
+            restrict_xpaths='(//a[@class="lister-page-next next-page"])[2]'))  # since no callback follow prop will default to True.
     )
 
-    def parse_item(self, response):
+    # def parse_index(self, response):
+    #     idx = response.css(
+    #         'h3.lister-item-header span.lister-item-index::text').get()
+    #     return idx
 
+    def parse_item(self, response):
         yield {
             'title': response.css('.title_wrapper > h1::text').get(),
             'year': response.css('.title_wrapper  #titleYear a::text').get(),
